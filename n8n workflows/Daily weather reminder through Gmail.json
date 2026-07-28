@@ -1,0 +1,107 @@
+{
+  "name": "Daily weather reminder through Gmail",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f6653c56-75d6-4579-bce0-7440bd44615a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "cityName": "Kleve"
+      },
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "4fb9bb78-6e62-45d6-af63-0a6634082e90",
+      "name": "OpenWeatherMap",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "cLKH8zE4AUznSiVh",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "joelthomas228@gmail.com",
+        "subject": "Daily weather",
+        "emailType": "text",
+        "message": "=Good morning! The current temperature is  {{ $json.main.temp }} in {{ $json.name }} with a temperature range of {{ $json.main.temp_min }} to {{ $json.main.temp_max }} and wind speed of {{ $json.wind.speed }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "77ebddd6-7496-45aa-a0a3-d63dee2123d4",
+      "name": "Send a message",
+      "webhookId": "5b534a90-bae8-422f-8b65-823ff8bf8242",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "tqEZh6yJxlzyUl5r",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "919f7053-0ad7-43ab-bdb5-899bd61fc402",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cf821078311b15ee996905c525d52746ad50424550b9b125bf532c2d8ec9130d"
+  },
+  "nodeGroups": [],
+  "id": "FQF75UuXO2228A6d",
+  "tags": []
+}
